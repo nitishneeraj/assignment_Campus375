@@ -53,7 +53,7 @@ $stmt->close();
 
             <div class="form-group">
                 <label for="adharNumber">Aadhar Number</label>
-                <input type="text" class="form-control" id="adharNumber" name="adharNumber" value="<?php echo h$student['aadhar']; ?>">
+                <input type="text" class="form-control" id="adharNumber" name="adharNumber" value="<?php echo $student['aadhar']; ?>">
             </div>
 
             <div class="form-group">
