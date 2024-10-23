@@ -4,7 +4,7 @@ include 'db.php';
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Get input values from the form
+
     $name = $_POST['studentName'];
     $mobile = $_POST['mobileNumber'];
     $email = $_POST['emailId'];
@@ -19,16 +19,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $imageName = $_FILES['studentImage']['name'];
     $uploadDir = 'uploads/';
     
-    // Check if the uploads folder exists, if not create it
     if (!is_dir($uploadDir)) {
-        mkdir($uploadDir, 0755, true); // Create uploads folder with proper permissions
+        mkdir($uploadDir, 0755, true); 
     }
 
     $imagePath = $uploadDir . basename($imageName);
 
-    // Move the uploaded file to the specified directory
+    // Move 
     if (move_uploaded_file($imageTmpPath, $imagePath)) {
-        $image = $imagePath; // Set the image path for saving in the database
+        $image = $imagePath;
     } else {
         echo json_encode(['status' => 'error', 'message' => 'Image upload failed']);
         exit();
@@ -41,7 +40,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt->bind_param("sssss", $name, $mobile, $email, $aadhar, $image);
 
     if ($stmt->execute()) {
-        // Get the last inserted student id
         $studentId = $stmt->insert_id;
 
         // Inserting fee data (multiple entries)
@@ -51,7 +49,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             $feeStmt = $conn->prepare("INSERT INTO student_fees (student_id, fee_group, fee_head) VALUES (?, ?, ?)");
 
-            // Loop through the fee entries and insert them
             for ($i = 0; $i < count($feeGroups); $i++) {
                 $feeGroup = $feeGroups[$i];
                 $feeHead = $feeHeads[$i];
